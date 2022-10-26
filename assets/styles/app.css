@@ -1,0 +1,6 @@
+@import '~bootstrap';
+@import "pages/home/index.css";
+
+body {
+    background-color: lightgray;
+}

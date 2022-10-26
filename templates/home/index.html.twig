@@ -1,20 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'E:/SMILE/Formations/Symfony 6/Training/formation_25-10-2022/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'E:/SMILE/Formations/Symfony 6/Training/formation_25-10-2022/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="container-fluid p-4">
+        <div class="card">
+            <div class="card-header">
+                <h1>Welcome to Smile TV !</h1>
+            </div>
+            <div class="card-body">
+                You can browse all last movies and books !
+            </div>
+        </div>
+    </div>
+    <aside>
+        {{ render(controller('App\\Controller\\HomeController::latestMovies', {max: 6})) }}
+        {{ render(controller('App\\Controller\\HomeController::latestBooks', {max: 6})) }}
+    </aside>
 {% endblock %}

@@ -1,0 +1,13 @@
+<div class="container-fluid d-flex text-center p-4">
+    <h3>Derniers films</h3>
+    {% for movie in movies %}
+        <a class="card" style="width: 18rem;" href="{{ path('app_movie_details', {'slug': movie.slug }) }}">
+            <img src="{{ movie.poster }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <p class="card-text">{{ movie.title }}</p>
+            </div>
+        </a>
+    {% else %}
+        <span>Pas de film disponible...</span>
+    {% endfor %}
+</div>

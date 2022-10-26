@@ -1,20 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ContactController!{% endblock %}
+{% block title %}Contact{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'E:/SMILE/Formations/Symfony 6/Training/formation_25-10-2022/src/Controller/ContactController.php'|file_link(0) }}">src/Controller/ContactController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'E:/SMILE/Formations/Symfony 6/Training/formation_25-10-2022/templates/contact/index.html.twig'|file_link(0) }}">templates/contact/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="container-fluid p-4">
+        <div class="card">
+            <div class="card-header">
+                <h1>Contact us</h1>
+            </div>
+            <div class="card-body">
+                Please leave us a message :)
+            </div>
+            <div class="container-fluid p-4">
+                {{ form_start(contact_form) }}
+                    {{ form_widget(contact_form) }}
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                {{ form_end(contact_form) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

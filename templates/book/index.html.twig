@@ -1,20 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BookController!{% endblock %}
+{% block title %}Books{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'E:/SMILE/Formations/Symfony 6/Training/formation_25-10-2022/src/Controller/BookController.php'|file_link(0) }}">src/Controller/BookController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'E:/SMILE/Formations/Symfony 6/Training/formation_25-10-2022/templates/book/index.html.twig'|file_link(0) }}">templates/book/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="container-fluid p-4">
+        <div class="card">
+            <div class="card-header">
+                <h1>Books collection</h1>
+            </div>
+            <div class="card-body">
+                You can browse all last books !
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid d-flex text-center p-4">
+        {% for book in books %}
+            <a class="card" style="width: 18rem;" href="{{ path('app_book_details', {'slug': book.slug }) }}">
+                <div class="card-body">
+                    <p class="card-text">{{ book.title }}</p>
+                </div>
+            </a>
+        {% else %}
+            <span>Pas de Livre disponible...</span>
+        {% endfor %}
+    </div>
+    {{ form_start(book_form) }}
+        {{ form_widget(book_form) }}
+        <button class="btn btn-primary" type="submit">Submit</button>
+    {{ form_end(book_form) }}
 {% endblock %}
