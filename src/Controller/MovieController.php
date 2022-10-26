@@ -2,43 +2,39 @@
 
 namespace App\Controller;
 
+use App\Repository\MovieRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MovieController extends AbstractController
 {
-    private array $faker = [
-        ['title' => 'Alien', 'releasedAt' => '1997-09-22', 'genres' => ['SF', 'Violent']],
-        ['title' => 'Chucky', 'releasedAt' => '1997-09-22', 'genres' => ['Horreur', 'Violent', 'Dorothée']],
-        ['title' => 'Predator', 'releasedAt' => '1997-09-22', 'genres' => ['SF', 'Violent']]
-    ];
-
     #[Route('/movie', name: 'app_movie')]
-    public function index(): Response
+    public function index(MovieRepository $movieRepository): Response
     {
+        $movies = $movieRepository->findByMoreRecents();
+
         return $this->render('movie/index.html.twig', [
             'controller_name' => 'MovieController',
-            'movies' => $this->faker
+            'movies' => $movies
         ]);
     }
 
-    #[Route('/movie_details/{title<\w+>}', name: 'app_movie_details')]
-    public function movie_details(string $title): Response
+    /**
+     * @throws NonUniqueResultException
+     */
+    #[Route('/movie_details/{slug<\w+>}', name: 'app_movie_details')]
+    public function movie_details(string $slug, MovieRepository $movieRepository): Response
     {
-        $selected = [];
-        foreach ($this->faker as $movie) {
-            if (str_replace(' ', '-', strtolower($movie['title'])) === $title) {
-                $selected = $movie;
-            }
-        }
+        $movie = $movieRepository->findBySlug($slug);
 
-        if (empty($selected)) {
-            throw $this->createNotFoundException('The movie "' . $title . '" does not exist.');
+        if ($movie === null) {
+            throw $this->createNotFoundException('The movie "' . $slug . '" does not exist.');
         }
 
         return $this->render('movie/movie.html.twig', [
-            'movie' => $selected
+            'movie' => $movie
         ]);
     }
 }

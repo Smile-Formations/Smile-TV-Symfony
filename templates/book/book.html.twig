@@ -1,15 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BookController!{% endblock %}
+{% block title %}Books - {{ book.title }}{% endblock %}
 
 {% block body %}
-    <h1>{{ book.title }}</h1>
-
-    <p>Released at {{ book.releasedAt|date('d/m/Y') }}</p>
-    <label>Genres:</label>
-    <ul>
-        {% for genre in book.genres %}
-            <li>{{ genre }}</li>
-        {% endfor %}
-    </ul>
+    <div class="container-fluid p-4">
+        <div class="card">
+            <div class="card-header">
+                <h1>{{ book.title }}</h1>
+            </div>
+            <div class="card-body">
+                <p>Author {{ book.author }}</p>
+                <label>Commentaires:</label>
+                <ul>
+                    {% for comment in book.comments %}
+                        <li>
+                            <label>
+                                <span>{{ comment.author }}</span>
+                                <textarea>{{ comment.message }}</textarea>
+                            </label>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}

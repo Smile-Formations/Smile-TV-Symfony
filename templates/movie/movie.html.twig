@@ -1,15 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MovieController!{% endblock %}
+{% block title %}Movies - {{ movie.title }}{% endblock %}
 
 {% block body %}
-    <h1>{{ movie.title }}</h1>
-
-    <p>Released at {{ movie.releasedAt|date('d/m/Y') }}</p>
-    <label>Genres:</label>
-    <ul>
-        {% for genre in movie.genres %}
-            <li>{{ genre }}</li>
-        {% endfor %}
-    </ul>
+    <div class="container-fluid p-4">
+        <div class="card">
+            <div class="card-header">
+                <h1>{{ movie.title }}</h1>
+            </div>
+            <div class="card-body">
+                <p>Released at {{ movie.releasedAt|date('d/m/Y') }}</p>
+                <label>Genres:</label>
+                <ul>
+                    {% for genre in movie.genres %}
+                        <li>{{ genre.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}

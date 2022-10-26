@@ -1,7 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block body %}
-    <h1>{{ controller_name }}</h1>
+    <div class="container-fluid p-4">
+        <div class="card">
+            <div class="card-header">
+                <h1>Welcome to Smile TV !</h1>
+            </div>
+            <div class="card-body">
+                You can browse all last movies and books !
+            </div>
+        </div>
+    </div>
+    <aside>
+        {{ render(controller('App\\Controller\\HomeController::latestMovies', {max: 6})) }}
+        {{ render(controller('App\\Controller\\HomeController::latestBooks', {max: 6})) }}
+    </aside>
 {% endblock %}
