@@ -14,12 +14,21 @@ class MovieController extends AbstractController
         ['title' => 'Predator', 'releasedAt' => '1997-09-22', 'genres' => ['SF', 'Violent']]
     ];
 
+    #[Route('/movie', name: 'app_movie')]
+    public function index(): Response
+    {
+        return $this->render('movie/index.html.twig', [
+            'controller_name' => 'MovieController',
+            'movies' => $this->faker
+        ]);
+    }
+
     #[Route('/movie_details/{title<\w+>}', name: 'app_movie_details')]
     public function movie_details(string $title): Response
     {
         $selected = [];
         foreach ($this->faker as $movie) {
-            if (strtolower($movie['title']) === strtolower($title)) {
+            if (str_replace(' ', '-', strtolower($movie['title'])) === $title) {
                 $selected = $movie;
             }
         }
@@ -28,7 +37,7 @@ class MovieController extends AbstractController
             throw $this->createNotFoundException('The movie "' . $title . '" does not exist.');
         }
 
-        return $this->render('movie/index.html.twig', [
+        return $this->render('movie/movie.html.twig', [
             'movie' => $selected
         ]);
     }

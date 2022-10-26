@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BookController!{% endblock %}
+
+{% block body %}
+    <h1>{{ book.title }}</h1>
+
+    <p>Released at {{ book.releasedAt|date('d/m/Y') }}</p>
+    <label>Genres:</label>
+    <ul>
+        {% for genre in book.genres %}
+            <li>{{ genre }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
