@@ -15,12 +15,10 @@ class BookController extends AbstractController
     public function index(BookRepository $bookRepository): Response
     {
         $books = $bookRepository->findByMoreRecents();
-        $form = $this->createForm(BookType::class);
 
         return $this->render('book/index.html.twig', [
             'controller_name' => 'BookController',
-            'books' => $books,
-            'book_form' => $form->createView()
+            'books' => $books
         ]);
     }
 
