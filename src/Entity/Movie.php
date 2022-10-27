@@ -7,8 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraint as Assert;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
+#[UniqueEntity('slug')]
 class Movie
 {
     #[ORM\Id]
@@ -16,26 +19,39 @@ class Movie
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $poster = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $country = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $releasedAt = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $price = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[ORM\ManyToMany(targetEntity: Genre::class, inversedBy: 'movies')]
+    #[ORM\ManyToMany(targetEntity: Genre::class, inversedBy: 'movies', cascade: ['persist'])]
     private Collection $genres;
+
+    #[Assert\NotBlank]
+    #[ORM\Column(length: 20)]
+    private ?string $rated = null;
+
+    #[Assert\NotBlank]
+    #[ORM\Column(length: 20)]
+    private ?string $omdbId = null;
 
     public function __construct()
     {
@@ -139,6 +155,30 @@ class Movie
     public function removeGenre(Genre $genre): self
     {
         $this->genres->removeElement($genre);
+
+        return $this;
+    }
+
+    public function getRated(): ?string
+    {
+        return $this->rated;
+    }
+
+    public function setRated(string $rated): self
+    {
+        $this->rated = $rated;
+
+        return $this;
+    }
+
+    public function getOmdbId(): ?string
+    {
+        return $this->omdbId;
+    }
+
+    public function setOmdbId(string $omdbId): self
+    {
+        $this->omdbId = $omdbId;
 
         return $this;
     }

@@ -4,10 +4,11 @@
 
 {% block body %}
     <div class="container-fluid p-4">
-        <div class="card">
+        <div class="card" style="width: 18rem;">
             <div class="card-header">
                 <h1>{{ movie.title }}</h1>
             </div>
+            <img src="{{ movie.poster }}" class="card-img-top" alt="{{ movie.title }} poster">
             <div class="card-body">
                 <p>Released at {{ movie.releasedAt|date('d/m/Y') }}</p>
                 <label>Genres:</label>
