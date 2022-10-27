@@ -13,9 +13,9 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid d-flex text-center p-4">
+    <div class="container-fluid d-flex flex-wrap w-100 text-center p-4">
         {% for book in books %}
-            <a class="card" style="width: 18rem;" href="{{ path('app_book_details', {'slug': book.slug }) }}">
+            <a class="card m-2" style="width: 18rem;" href="{{ path('app_book_details', {'slug': book.slug }) }}">
                 <div class="card-body">
                     <p class="card-text">{{ book.title }}</p>
                 </div>

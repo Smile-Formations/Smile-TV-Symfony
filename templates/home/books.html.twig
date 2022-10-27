@@ -1,13 +1,14 @@
-<div class="container-fluid d-flex text-center p-4">
-    <h3>Derniers livres</h3>
-    {% for book in books %}
-        <a class="card" style="width: 18rem;" href="{{ path('app_book_details', {'slug': book.slug }) }}">
-            <img src="{{ book.poster }}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text">{{ book.title }}</p>
-            </div>
-        </a>
-    {% else %}
-        <span>Pas de Livres disponible...</span>
-    {% endfor %}
+<div class="container-fluid d-flex text-center p-4 w-100 flex-column">
+    <h3 class="mb-4">Derniers livres</h3>
+    <div class="container-fluid d-flex flex-wrap w-100">
+        {% for book in books %}
+            <a class="card m-2" style="width: 18rem;" href="{{ path('app_book_details', {'slug': book.slug }) }}">
+                <div class="card-body">
+                    <p class="card-text">{{ book.title }}</p>
+                </div>
+            </a>
+        {% else %}
+            <span>Pas de Livres disponible...</span>
+        {% endfor %}
+    </div>
 </div>

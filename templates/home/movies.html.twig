@@ -1,13 +1,15 @@
-<div class="container-fluid d-flex text-center p-4">
-    <h3>Derniers films</h3>
-    {% for movie in movies %}
-        <a class="card" style="width: 18rem;" href="{{ path('app_movie_details', {'slug': movie.slug }) }}">
-            <img src="{{ movie.poster }}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text">{{ movie.title }}</p>
-            </div>
-        </a>
-    {% else %}
-        <span>Pas de film disponible...</span>
-    {% endfor %}
+<div class="container-fluid d-flex text-center p-4 w-100 flex-column">
+    <h3 class="mb-4">Derniers films</h3>
+    <div class="container-fluid d-flex flex-wrap w-100">
+        {% for movie in movies %}
+            <a class="card m-2" style="width: 18rem;" href="{{ path('app_movie_details', {'slug': movie.slug }) }}">
+                <img src="{{ movie.poster }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">{{ movie.title }}</p>
+                </div>
+            </a>
+        {% else %}
+            <span>Pas de film disponible...</span>
+        {% endfor %}
+    </div>
 </div>

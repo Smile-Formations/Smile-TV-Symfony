@@ -7,6 +7,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Provider\MovieProvider;
 
 class MovieController extends AbstractController
 {
@@ -24,17 +25,27 @@ class MovieController extends AbstractController
     /**
      * @throws NonUniqueResultException
      */
-    #[Route('/movie_details/{slug<\w+>}', name: 'app_movie_details')]
+    #[Route('/movie_details/{slug}', name: 'app_movie_details')]
     public function movie_details(string $slug, MovieRepository $movieRepository): Response
     {
         $movie = $movieRepository->findBySlug($slug);
 
         if ($movie === null) {
-            throw $this->createNotFoundException('The movie "' . $slug . '" does not exist.');
+            throw $this->createNotFoundException('This movie does not exist...');
         }
 
         return $this->render('movie/movie.html.twig', [
             'movie' => $movie
         ]);
     }
+
+    /*#[Route('/movie_details/{slug}', name: 'app_movie_details')]
+    public function movie_details(string $slug, MovieRepository $movieRepository, MovieProvider $movieProvider): Response
+    {
+        $movie = $movieProvider->getMovieByTitle(urldecode($slug));
+
+        return $this->render('movie/movie.html.twig', [
+            'movie' => $movie
+        ]);
+    }*/
 }
