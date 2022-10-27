@@ -8,15 +8,21 @@
             <div class="card-header">
                 <h1>Contact us</h1>
             </div>
-            <div class="card-body">
-                Please leave us a message :)
-            </div>
-            <div class="container-fluid p-4">
-                {{ form_start(contact_form) }}
-                    {{ form_widget(contact_form) }}
-                    <button type="submit" class="btn btn-primary">Envoyer</button>
-                {{ form_end(contact_form) }}
-            </div>
+            {% if sent == false %}
+                <div class="card-body">
+                    Please leave us a message :)
+                </div>
+                <div class="container-fluid p-4">
+                    {{ form_start(contact_form) }}
+                        {{ form_widget(contact_form) }}
+                        <button type="submit" class="btn btn-primary">Envoyer</button>
+                    {{ form_end(contact_form) }}
+                </div>
+            {% else %}
+                <div class="card-body">
+                    Your message has been sent !
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
