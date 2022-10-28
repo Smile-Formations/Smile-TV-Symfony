@@ -41,7 +41,6 @@ class ContactMailer
             //->cc('cc@example.com')
             //->bcc('bcc@example.com')
             ->replyTo($contactDTO->getEmail())
-            //->priority(Email::PRIORITY_HIGH)
             ->subject($contactDTO->getSubject())
             ->htmlTemplate('emails/contact.html.twig')
             ->context([

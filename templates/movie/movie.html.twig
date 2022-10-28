@@ -10,12 +10,12 @@
             </div>
             <img src="{{ movie.poster }}" class="card-img-top" alt="{{ movie.title }} poster">
             <div class="card-body">
-                <p>Released at {{ movie.releasedAt|date('d/m/Y') }}</p>
-                <label>Genres:</label>
                 <ul>
-                    {% for genre in movie.genres %}
-                        <li>{{ genre.name }}</li>
-                    {% endfor %}
+                    <li>Id : {{ movie.id }}</li>
+                    <li>Released : {{ movie.releasedAt|date('Y M d') }}</li>
+                    <li>Country : {{ movie.country }}</li>
+                    <li>Genres : {{ movie.genres|reduce((carry, genre) => carry == '' ? carry ~ genre.name : carry ~ ', ' ~ genre.name, '') }}</li>
+                    <li>Rated : {{ movie.rated }}</li>
                 </ul>
             </div>
         </div>
