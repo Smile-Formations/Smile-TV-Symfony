@@ -2,8 +2,8 @@
 
 namespace App\Form;
 
+use App\DTO\ContactDTO;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,13 +21,8 @@ class ContactType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Votre email'
             ])
-            ->add('subject', ChoiceType::class, [
-                'label' => 'Choisir un sujet',
-                'choices' => [
-                    'Choisir' => null,
-                    'Papa' => 'papa',
-                    'Maman' => 'maman'
-                ]
+            ->add('subject', TextType::class, [
+                'label' => 'Votre sujet',
             ])
             ->add('message', TextareaType::class, [
                 'label' => 'Votre message'
@@ -38,7 +33,7 @@ class ContactType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            // Configure your form options here
+            'data_class' => ContactDTO::class,
         ]);
     }
 }

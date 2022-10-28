@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
+use App\Event\UnderageMovieEvent;
 use App\Repository\MovieRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Provider\MovieProvider;
+use App\Security\Voter\MovieVoter;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class MovieController extends AbstractController
 {
@@ -26,9 +29,19 @@ class MovieController extends AbstractController
      * @throws NonUniqueResultException
      */
     #[Route('/movie_details/{slug}', name: 'app_movie_details')]
-    public function movie_details(string $slug, MovieRepository $movieRepository): Response
+    public function movie_details(string $slug, MovieRepository $movieRepository, EventDispatcherInterface $dispatcher): Response
     {
         $movie = $movieRepository->findBySlug($slug);
+
+        if (!$this->isGranted(MovieVoter::VIEW, $movie)) {
+            $dispatcher->dispatch(new UnderageMovieEvent($movie), UnderageMovieEvent::NAME);
+
+            $exception = $this->createAccessDeniedException('Access denied');
+            $exception->setAttributes(MovieVoter::VIEW);
+            $exception->setSubject($movie);
+
+            throw $exception;
+        }
 
         if ($movie === null) {
             throw $this->createNotFoundException('This movie does not exist...');
