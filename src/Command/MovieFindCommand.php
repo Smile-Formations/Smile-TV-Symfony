@@ -55,7 +55,7 @@ class MovieFindCommand extends Command
 
         try {
             $method = 'getMovieBy' . \ucfirst($type);
-            $movie = $this->provider->$method($value);
+            $movie = $this->provider->$method($value, true);
         } catch (\Exception $e) {
             if ($output->isVerbose()) {
                 $io->warning($e->getMessage());

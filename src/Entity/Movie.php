@@ -53,6 +53,10 @@ class Movie
     #[ORM\Column(length: 20)]
     private ?string $omdbId = null;
 
+    #[ORM\ManyToOne(inversedBy: 'movies')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $addedBy = null;
+
     public function __construct()
     {
         $this->genres = new ArrayCollection();
@@ -179,6 +183,18 @@ class Movie
     public function setOmdbId(string $omdbId): self
     {
         $this->omdbId = $omdbId;
+
+        return $this;
+    }
+
+    public function getAddedBy(): ?User
+    {
+        return $this->addedBy;
+    }
+
+    public function setAddedBy(?User $addedBy): self
+    {
+        $this->addedBy = $addedBy;
 
         return $this;
     }
