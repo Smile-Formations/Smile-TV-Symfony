@@ -1,6 +1,12 @@
 @import '~bootstrap';
-@import "pages/home/index.css";
 
 body {
     background-color: lightgray;
+}
+
+.required::after {
+    content: "*";
+    padding-left: 5px;
+    color: red;
+    font-weight: bold;
 }
