@@ -12,5 +12,5 @@ import './pages/home';
 require('bootstrap');
 
 // start the Stimulus application
-// import './bootstrap';
+import './bootstrap';
 global.$ = global.jQuery = $;

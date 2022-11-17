@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\DTO\ContactDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -16,7 +17,12 @@ class ContactType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Votre nom / prénom'
+                'label' => 'Votre nom / prénom',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Saisir votre nom / prénom',
+                    'class' => 'papa'
+                ]
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Votre email'
@@ -38,7 +44,7 @@ class ContactType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            // Configure your form options here
+            'data_class' => ContactDTO::class
         ]);
     }
 }

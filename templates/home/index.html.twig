@@ -13,6 +13,7 @@
             </div>
         </div>
     </div>
+    <p data-controller="hello"></p>
     <aside>
         {{ render(controller('App\\Controller\\HomeController::latestMovies', {max: 6})) }}
         {{ render(controller('App\\Controller\\HomeController::latestBooks', {max: 6})) }}
