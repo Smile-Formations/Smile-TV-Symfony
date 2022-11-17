@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -61,18 +60,5 @@ class BookRepository extends ServiceEntityRepository
             ->setMaxResults($max)
             ->getQuery()
             ->getResult();
-    }
-
-    /**
-     * @throws NonUniqueResultException
-     */
-    public function findBySlug(string $slug): ?Book
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.slug = :slug')
-            ->setParameter('slug', $slug)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
     }
 }

@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Movie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -61,18 +60,5 @@ class MovieRepository extends ServiceEntityRepository
             ->setMaxResults($max)
             ->getQuery()
             ->getResult();
-    }
-
-    /**
-     * @throws NonUniqueResultException
-     */
-    public function findBySlug(string $slug): ?Movie
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.slug = :slug')
-            ->setParameter('slug', $slug)
-            ->getQuery()
-            ->getOneOrNullResult()
-            ;
     }
 }

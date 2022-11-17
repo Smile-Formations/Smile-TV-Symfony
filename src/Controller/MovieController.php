@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Repository\MovieRepository;
-use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,13 +20,10 @@ class MovieController extends AbstractController
         ]);
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
     #[Route('/movie_details/{slug}', name: 'app_movie_details')]
     public function movie_details(string $slug, MovieRepository $movieRepository): Response
     {
-        $movie = $movieRepository->findBySlug($slug);
+        $movie = $movieRepository->findOneBy(['slug' => $slug]);
 
         if ($movie === null) {
             throw $this->createNotFoundException('The movie "' . $slug . '" does not exist.');

@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Form\BookType;
 use App\Repository\BookRepository;
-use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,13 +23,10 @@ class BookController extends AbstractController
         ]);
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
     #[Route('/book_details/{slug}', name: 'app_book_details')]
     public function book_details(string $slug, BookRepository $bookRepository): Response
     {
-        $book = $bookRepository->findBySlug($slug);
+        $book = $bookRepository->findOneBy(['slug' => $slug]);
 
         if ($book === null) {
             throw $this->createNotFoundException('The book "' . $slug . '" does not exist.');
