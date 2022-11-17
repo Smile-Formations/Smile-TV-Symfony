@@ -2,7 +2,6 @@
     <h3>Derniers livres</h3>
     {% for book in books %}
         <a class="card" style="width: 18rem;" href="{{ path('app_book_details', {'slug': book.slug }) }}">
-            <img src="{{ book.poster }}" class="card-img-top" alt="...">
             <div class="card-body">
                 <p class="card-text">{{ book.title }}</p>
             </div>

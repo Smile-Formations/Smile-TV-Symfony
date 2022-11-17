@@ -24,7 +24,7 @@ class MovieController extends AbstractController
     /**
      * @throws NonUniqueResultException
      */
-    #[Route('/movie_details/{slug<\w+>}', name: 'app_movie_details')]
+    #[Route('/movie_details/{slug}', name: 'app_movie_details')]
     public function movie_details(string $slug, MovieRepository $movieRepository): Response
     {
         $movie = $movieRepository->findBySlug($slug);
