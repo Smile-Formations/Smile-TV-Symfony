@@ -38,18 +38,17 @@ class MovieController extends AbstractController
     {
         $movie = $movieRepository->findBySlug($slug);
 
+        if ($movie === null) {
+            throw $this->createNotFoundException('This movie does not exist...');
+        }
+
         if (!$this->isGranted(MovieVoter::VIEW, $movie)) {
-            $dispatcher->dispatch(new UnderageMovieEvent($movie), UnderageMovieEvent::NAME);
 
             $exception = $this->createAccessDeniedException('Access denied');
             $exception->setAttributes(MovieVoter::VIEW);
             $exception->setSubject($movie);
 
             throw $exception;
-        }
-
-        if ($movie === null) {
-            throw $this->createNotFoundException('This movie does not exist...');
         }
 
         return $this->render('movie/movie.html.twig', [
@@ -64,13 +63,10 @@ class MovieController extends AbstractController
      * @throws DecodingExceptionInterface
      * @throws ClientExceptionInterface
      */
-    #[Route('/omdb/{slug}', name: 'app_movie_details')]
-    public function omdb(string $slug, MovieRepository $movieRepository, MovieProvider $movieProvider): Response
+    #[Route('/omdb/{title}', name: 'app_omdb')]
+    public function search(string $title, MovieProvider $movieProvider): Response
     {
-        $movie = $movieProvider->getMovieByTitle(urldecode($slug));
-
-        return $this->render('movie/movie.html.twig', [
-            'movie' => $movie
-        ]);
+        $movie = $movieProvider->getMovieByTitle(urldecode($title), true);
+        return $this->redirectToRoute('app_movie_details', ['slug' => $movie->getSlug()]);
     }
 }
