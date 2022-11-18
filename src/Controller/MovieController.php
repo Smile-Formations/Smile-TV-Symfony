@@ -43,6 +43,7 @@ class MovieController extends AbstractController
         }
 
         if (!$this->isGranted(MovieVoter::VIEW, $movie)) {
+            $dispatcher->dispatch(new UnderageMovieEvent($movie), UnderageMovieEvent::NAME);
 
             $exception = $this->createAccessDeniedException('Access denied');
             $exception->setAttributes(MovieVoter::VIEW);
