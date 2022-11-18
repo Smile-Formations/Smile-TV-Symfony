@@ -8,6 +8,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Provider\MovieProvider;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class MovieController extends AbstractController
 {
@@ -39,13 +44,20 @@ class MovieController extends AbstractController
         ]);
     }
 
-    /*#[Route('/movie_details/{slug}', name: 'app_movie_details')]
-    public function movie_details(string $slug, MovieRepository $movieRepository, MovieProvider $movieProvider): Response
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    #[Route('/omdb/{title}', name: 'app_omdb')]
+    public function omdb(string $title, MovieProvider $movieProvider): Response
     {
-        $movie = $movieProvider->getMovieByTitle(urldecode($slug));
+        $movie = $movieProvider->getMovieByTitle(urldecode($title));
 
         return $this->render('movie/movie.html.twig', [
             'movie' => $movie
         ]);
-    }*/
+    }
 }
