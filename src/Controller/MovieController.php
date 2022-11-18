@@ -64,10 +64,10 @@ class MovieController extends AbstractController
      * @throws DecodingExceptionInterface
      * @throws ClientExceptionInterface
      */
-    #[Route('/omdb/{slug}', name: 'app_movie_details')]
-    public function omdb(string $slug, MovieRepository $movieRepository, MovieProvider $movieProvider): Response
+    #[Route('/omdb/{title}', name: 'app_omdb')]
+    public function omdb(string $title, MovieProvider $movieProvider): Response
     {
-        $movie = $movieProvider->getMovieByTitle(urldecode($slug));
+        $movie = $movieProvider->getMovieByTitle(urldecode($title), true);
 
         return $this->render('movie/movie.html.twig', [
             'movie' => $movie
