@@ -38,18 +38,17 @@ class MovieController extends AbstractController
     {
         $movie = $movieRepository->findBySlug($slug);
 
+        if ($movie === null) {
+            throw $this->createNotFoundException('This movie does not exist...');
+        }
+
         if (!$this->isGranted(MovieVoter::VIEW, $movie)) {
-            $dispatcher->dispatch(new UnderageMovieEvent($movie), UnderageMovieEvent::NAME);
 
             $exception = $this->createAccessDeniedException('Access denied');
             $exception->setAttributes(MovieVoter::VIEW);
             $exception->setSubject($movie);
 
             throw $exception;
-        }
-
-        if ($movie === null) {
-            throw $this->createNotFoundException('This movie does not exist...');
         }
 
         return $this->render('movie/movie.html.twig', [
