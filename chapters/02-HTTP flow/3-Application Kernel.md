@@ -1,4 +1,4 @@
-##A simple PHP Object
+## A simple PHP Object
 
 - The Symfony HttpKernel is a regular PHP object that exists to manage your application’s environment.
 - It deals with all the logic of handling the requests.

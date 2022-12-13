@@ -1,4 +1,4 @@
-##Controller and Routes
+## Controller and Routes
 
 A controller is a function (any callable) that returns a response.
 
@@ -11,7 +11,7 @@ A Route is a set of criteria that matches a request:
 
 ---
 
-##Symfony Request Object
+## Symfony Request Object
 
 - To represent the incoming client message, Symfony uses a class from its HttpFoundation component: the Request.
 - This object is created when the Runtime component starts  running your Symfony application.

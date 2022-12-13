@@ -1,4 +1,4 @@
-##Symfony project
+## Symfony project
 
 - Created by Fabien Potencier in 2004
 - Maintained by Symfony and its community
@@ -7,7 +7,7 @@
 
 ---
 
-##Symfony architecture
+## Symfony architecture
 
 ![1.1.1](../assets/01-Introduction/1-The%20Symfony%20project/1.1.1.png)
 
@@ -20,7 +20,7 @@
 
 ---
 
-##Symfony components
+## Symfony components
 
 Symfony components are
 - Standalone libraries
@@ -32,7 +32,7 @@ Symfony components are
 
 ---
 
-##Symfony LTS versions
+## Symfony LTS versions
 
 - **X.4**
   - extended bug and security support
@@ -45,7 +45,7 @@ Symfony components are
   - The only difference is the depreciation layer removal.
 
 
-##Symfony standard versions
+## Symfony standard versions
 
 - **Patch: 5.1.X**
   - bug and security fixes every month

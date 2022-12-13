@@ -1,4 +1,4 @@
-##Controllers
+## Controllers
 
 In Symfony, the name “controller” is usually used for the classes containing the actual callable controllers.
 
@@ -7,7 +7,7 @@ Controllers are callables whose only job is to send back a response.
 As a best practice, you should keep your controllers as small as possible. Your functions should only contain what code is necessary to coordinate your services and return the response.
 
 
-##Generate a controller
+## Generate a controller
 
 To create easily new controllers just use the MakerBundle
 
@@ -15,19 +15,19 @@ To create easily new controllers just use the MakerBundle
 
 ---
 
-#Generated controller
+## Generated controller
 
 ![2.7.2](../assets/02-HTTP%20flow/7-Controllers/2.7.2.png)
 ![2.7.3](../assets/02-HTTP%20flow/7-Controllers/2.7.3.png)
 
-##Role of a controller
+## Role of a controller
 
 ![2.7.4](../assets/02-HTTP%20flow/7-Controllers/2.7.4.png)
 ![2.7.5](../assets/02-HTTP%20flow/7-Controllers/2.7.5.png)
 
 ---
 
-##Controller helpers
+## Controller helpers
 
 In your application, every controller should extend the `AbstractController` class from the FrameworkBundle.
 
@@ -39,7 +39,7 @@ More: [https://symfony.com/doc/current/controller.html](https://symfony.com/doc/
 
 ---
 
-##Exercises
+## Exercises
 
 - Create a hello world page
   - Create a controller and a route matching /hello
@@ -48,7 +48,7 @@ More: [https://symfony.com/doc/current/controller.html](https://symfony.com/doc/
 
 ---
 
-##Resources
+## Resources
 
 - [https://symfony.com/doc/current/routing.html](https://symfony.com/doc/current/routing.html)
 - [https://symfony.com/doc/current/controller.html](https://symfony.com/doc/current/controller.html)

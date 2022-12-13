@@ -1,4 +1,4 @@
-##What is a route ?
+## What is a route ?
 
 A Route is a set of criteria that matches a request (url) with a controller :
 - matches by host, path, method, …
@@ -10,33 +10,33 @@ _Tips: Routes can be declared in different formats, such as : annotations, php a
 
 ---
 
-##Routing attributes in action
+## Routing attributes in action
 
 Routes should preferably be declared as attributes in PHP 6
 ![2.6.1](../assets/02-HTTP%20flow/6-Routing/2.6.1.png)
 
 ---
 
-##Routing annotations in action
+## Routing annotations in action
 
 This is the former best practice, for former PHP versions
 ![2.6.2](../assets/02-HTTP%20flow/6-Routing/2.6.2.png)
 
 ---
 
-##Routing attributes
+## Routing attributes
 
 Routes attributes are dynamic parts of the path. They represent parts of the url that can change and be interpreted as variables by your application. They are defined by writing a parameter name inside curly braces.
 
 A route can contain any number of attributes. Parameters can be  passed directly to the controller as arguments or retrieved from the `$request->attributes` parameter bag.
 
-##Routing parameters
+## Routing parameters
 
 ![2.6.3](../assets/02-HTTP%20flow/6-Routing/2.6.3.png)
 
 ---
 
-##Route requirements
+## Route requirements
 
 Routing parameters can be validated against specific regex constraints defined as requirements. These constraints can be defined two ways:
 - As key-value pairs in the `requirements` section of the Route definition, the key being the parameter name.
@@ -46,7 +46,7 @@ Routing parameters can be validated against specific regex constraints defined a
 
 ---
 
-##Route defaults
+## Route defaults
 
 Routing parameters can have default values. These values can be defined three ways:
 - As the default value of the corresponding argument in the controller function definition
@@ -57,7 +57,7 @@ Routing parameters can have default values. These values can be defined three wa
 
 ---
 
-##Routing options
+## Routing options
 
 You can make routes match only for specific HTTP methods by adding the `methods` arrow section to your route. It takes any number of methods which will be the only ones your route will match.
 
@@ -67,7 +67,7 @@ For more complex matching methods, you can use the `condition` section of the ro
 
 ---
 
-##Route resolution precisions
+## Route resolution precisions
 
 - Symfony automatically redirects between urls with or without a trailing slash. If the route is defined as `/foo` and you call `/foo/`, you will receive a 301 Redirect response towards `/foo` and vice versa.
 - In a route defining multiple parameter, if the first parameter has a default value (and thus is optional) all the following parameters must also be optional.
@@ -77,7 +77,7 @@ For more complex matching methods, you can use the `condition` section of the ro
 
 ---
 
-##Debugging routes
+## Debugging routes
 
 ![2.6.8](../assets/02-HTTP%20flow/6-Routing/2.6.8.png)
 

@@ -1,4 +1,4 @@
-##Concept
+## Concept
 
 HTTP is a protocol to communicate over the Internet. Its basic workings are simple:
 - A Client makes a Request to read/write resources
@@ -8,7 +8,7 @@ HTTP is a protocol to communicate over the Internet. Its basic workings are simp
 
 ---
 
-##HTTP Request
+## HTTP Request
 
 Anatomy of the request:
 - first line: method + resource + protocol
@@ -19,7 +19,7 @@ Anatomy of the request:
 
 ---
 
-##HTTP Response
+## HTTP Response
 
 Anatomy of the response
 - first line: protocol + status code + status text
