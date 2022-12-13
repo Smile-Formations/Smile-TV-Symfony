@@ -50,6 +50,6 @@ More: [https://symfony.com/doc/current/controller.html](https://symfony.com/doc/
 
 ##Resources
 
-[https://symfony.com/doc/current/routing.html](https://symfony.com/doc/current/routing.html)
-[https://symfony.com/doc/current/controller.html](https://symfony.com/doc/current/controller.html)
+- [https://symfony.com/doc/current/routing.html](https://symfony.com/doc/current/routing.html)
+- [https://symfony.com/doc/current/controller.html](https://symfony.com/doc/current/controller.html)
 
