@@ -20,6 +20,7 @@ foreach ($dirs as $dir) {
                 if (str_ends_with($file, '.md') && !mkdir($concurrentDirectory2) && !is_dir($concurrentDirectory2)) {
                     throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory2));
                 }
+                fopen($concurrentDirectory2 . "/.gitignore", 'wb');
                 echo "\t" . "-- " . $concurrentDirectory2 . "\n";
             }
         }
