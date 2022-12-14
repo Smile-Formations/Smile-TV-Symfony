@@ -1,0 +1,123 @@
+## Services
+
+**More specifically, services are:**
+
+- Descriptions of how to instantiate PHP classes
+- Most of the time already dynamically scanned by Symfony: no manual configuration needed
+- Configuration can still be written for explicit declaration or specific cases
+
+## Inject dependencies in a service
+
+**Three types of injection allow you to deal with dependencies in most of your services:**
+
+- Constructor injection
+- Setter injection
+- Property injection
+
+---
+
+## Autowiring in a constructor
+
+```php
+/**
+ * Nothing to do save type-hinting an existing service
+ * Symfony takes care of the rest
+ * But you should always prefer type-hinting interfaces over classes
+ */
+class BookManager
+{
+    private EntityManagerInterface $manager;
+    
+    public function __construct(EntityManagerInterface $manager)
+    {
+        $this->manager = $manager;
+    }
+}
+```
+
+## Autowiring in a setter
+
+```php
+use Symfony\Contracts\Service\Attribute\Required;
+
+class BookManager
+{
+    /** @var \Doctrine\ORM\EntityManagerInterface */
+    private $entityManager;
+    
+    #[Required]
+    public function setEntityManager(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+}
+```
+
+---
+
+## Manual property injection
+
+```yaml
+# config/services.yaml
+
+services:
+  App\BookManager:
+    properties:
+      manager: '@Doctrine\ORM\EntityManagerInterface'
+```
+
+```php
+class BookManager
+{
+    /** @var \Doctrine\ORM\EntityManagerInterface */
+    private $manger;
+}
+```
+
+---
+
+## Tips
+
+- **Rule 1:** Use constructor injection whenever possible.
+- **Rule 2:** Use setter injection for specific cases.
+- **Rule 3:** Use property injection as a last resort.
+
+---
+
+## Only for information
+
+![8.3.1](../assets/08-Services/3-Retrieve%20services/8.3.1.png)
+
+---
+
+## Retrieving services
+
+- A service can then be accessed by various means, by it Fully Qualified Class Name (FQCN) or its alias (like “mailer.mailer” in the example below)
+- Following commands will give you information on one or all registered services of your application
+
+---
+
+## Useful commands
+
+```bash
+$ symfony console debug:autowiring --all
+$ symfony console debug:autowiring mail
+
+$ symfony console debug:container Symfony\Component\Mailer\MailerInterface
+$ symfony console debug:container mailer.mailer
+$ symfony console debug:container mailer.mailer --show-arguments
+```
+
+---
+
+## How to get services
+
+You can access, retrieve, or inject a service into a controller a another service:
+
+- Directly with the Dependency Injection Container (DIC):
+  - This allows you to dynamically retrieve exposed services
+  - `$this->container->get(’service_id’)` in a controller extending `AbstractController`
+- With Autowiring:
+  - This is a static and optimized way to inject services
+  - It’s primarily based on your type-hinting in constructors or methods
+
