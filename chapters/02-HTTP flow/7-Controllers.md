@@ -11,19 +11,113 @@ As a best practice, you should keep your controllers as small as possible. Your 
 
 To create easily new controllers just use the MakerBundle
 
-![2.7.1](../assets/02-HTTP%20flow/7-Controllers/2.7.1.png)
+```bash
+$ symfony console make:controller
+```
 
 ---
 
 ## Generated controller
 
-![2.7.2](../assets/02-HTTP%20flow/7-Controllers/2.7.2.png)
-![2.7.3](../assets/02-HTTP%20flow/7-Controllers/2.7.3.png)
+```php
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class BookController extends AbstractController
+{
+    #[Route('/book', name: 'app_book')]
+    public function index(): Response
+    {
+        return $this->render('book/index.html.twig', [
+            'controller_name' => 'BookController',
+        ]);
+    }
+}
+```
+
+```php
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class BookController extends AbstractController
+{
+    /**
+     * @Route('/book', name='app_book')
+     */
+    public function index(): Response
+    {
+        return $this->render('book/index.html.twig', [
+            'controller_name' => 'BookController',
+        ]);
+    }
+}
+```
 
 ## Role of a controller
 
-![2.7.4](../assets/02-HTTP%20flow/7-Controllers/2.7.4.png)
-![2.7.5](../assets/02-HTTP%20flow/7-Controllers/2.7.5.png)
+```php
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+
+#[Route('/book', name: 'book_')]
+class BookController extends AbstractController
+{
+    #[Route('/{id}', name: 'update', methods: ['GET', 'POST'])]
+    public function update(int $id, Request $request): Response
+    {
+        // Handle a request
+        
+        // Use some *services* for the domain logic if needed
+        
+        return new Response(); // Return a Response
+    }
+}
+```
+
+```php
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+
+/**
+ * @Route('/book', name: 'book_')
+ */
+class BookController extends AbstractController
+{
+    /**
+     * @Route("/{id}", name="update", methods={"GET", "POST"})
+     */
+    public function update(int $id, Request $request): Response
+    {
+        // Handle a request
+        
+        // Use some *services* for the domain logic if needed
+        
+        return new Response(); // Return a Response
+    }
+}
+```
 
 ---
 

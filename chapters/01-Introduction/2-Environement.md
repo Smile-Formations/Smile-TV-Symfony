@@ -8,8 +8,34 @@ It can:
 - ease the usage of Composer and Symfony Console
 - ease integrations with platform.sh
 
-![1.2.1](../assets/01-Introduction/2-Environement/1.2.1.png)
+```bash
+# Internal documentation
+$ symfony
+$ symfony -h
+
+# Custom php version
+$ symfony local:php:list
+$ symfony php -v
+$ symfony composer
+
+$ symfony new -h
+```
 
 ## Symfony CLI in your project
 
-![1.2.2](../assets/01-Introduction/2-Environement/1.2.2.png)
+```bash
+$ symfony console
+$ symfony local:check:requirements
+$ symfony local:check:security
+
+# Start the PHP server
+$ symfony serve -d
+
+# If you need to execute long-running commands
+$ symfony run -d your_command
+
+$ symfony server:status
+$ symfony server:log
+
+$ symfony server:stop
+```

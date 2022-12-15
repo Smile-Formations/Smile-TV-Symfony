@@ -21,11 +21,53 @@ You can then `flush` every waiting operation to actually save your entity in the
 
 With attributes (recommended):
 
-![6.4.2](../assets/06-Doctrine/4-Requests%20in%20database/6.4.2.png)
+```php
+class BookController extends AbstractController
+{
+    //...
+    
+    #[Route('/create', name: 'book_creation', methods: ['GET'])]
+    public function create(ObjectManager $manager): Response
+    {
+        $book = (new Book())
+            ->setIsbn('0-86140-324-X')
+            ->setTitle('The color of Magic')
+        ;
+        
+        $manager->persist($book);
+        $manager->flush();
+        
+        return $this->redirectToRoute('homepage');
+    }
+}
+```
 
 With annotations:
 
-![6.4.3](../assets/06-Doctrine/4-Requests%20in%20database/6.4.3.png)
+```php
+use Symfony\Component\Routing\Annotation\Route;
+
+class BookController extends AbstractController
+{
+    //...
+    
+    /**
+     * @Route("/create", name="book_creation", methods={"GET"})
+     */
+    public function create(ObjectManager $manager): Response
+    {
+        $book = (new Book())
+            ->setIsbn('0-86140-324-X')
+            ->setTitle('The color of Magic')
+        ;
+        
+        $manager->persist($book);
+        $manager->flush();
+        
+        return $this->redirectToRoute('homepage');
+    }
+}
+```
 
 ---
 
@@ -44,17 +86,63 @@ Repository base methods:
 
 Save an entity with attributes and repository:
 
-![6.4.4](../assets/06-Doctrine/4-Requests%20in%20database/6.4.4.png)
+```php
+class BookController extends AbstractController
+{
+    #[Route('/create', name: 'book_creation', methods: ['GET'])]
+    public function create(BookRepository $bookRepository): Response
+    {
+        $book = (new Book())
+            ->setIsbn('0-86140-324-X')
+            ->setTitle('The color of Magic')
+        ;
+        
+        $bookRepository->save($book, true);
+        
+        return $this->redirectToRoute('homepage');
+    }
+}
+```
 
 ## Retrieve data
 
 With attributes (recommended):
 
-![6.4.5](../assets/06-Doctrine/4-Requests%20in%20database/6.4.5.png)
+```php
+class BookController extends AbstractController
+{
+    #[Route('/list', name: 'book_list', methods: ['GET'])]
+    public function all(BookRepository $bookRepository): Response
+    {
+        $books = $bookRepository->all();
+        
+        return $this->render('book/list.html.twig', [
+            'books' => $books,
+        ]);
+    }
+}
+```
 
 With annotations:
 
-![6.4.6](../assets/06-Doctrine/4-Requests%20in%20database/6.4.6.png)
+```php
+use Symfony\Component\Routing\Annotation\Route;
+
+class BookController extends AbstractController
+{
+    /**
+     * @Route("/list", name="book_list", methods={"GET"})
+     */
+    public function all(BookRepository $bookRepository): Response
+    {
+        $books = $bookRepository->all();
+        
+        return $this->render('book/list.html.twig', [
+            'books' => $books,
+        ]);
+    }
+}
+```
 
 ---
 
@@ -68,11 +156,53 @@ If you need custom queries, you can write them in your repositories three differ
 
 ## Custom DQL request
 
-![6.4.7](../assets/06-Doctrine/4-Requests%20in%20database/6.4.7.png)
+```php
+class BookRepository extends ServiceEntityRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Book::class);
+    }
+
+    public function findBookWithAuthors(string $isbn): void
+    {
+        $dql = <<< DQL
+            SELECT b, a
+                FROM App\Entity\Book b
+                JOIN b.authors a
+                WHERE b.isbn = :isbn
+        DQL;
+        
+        return $this->getEntityManager()
+            ->createQuery($dql)
+            ->setParameter('isbn', $isbn)
+            ->getOneOrNullResult()
+        ;
+    }
+}
+```
 
 ## Alternatively: use a query builder 
 
-![6.4.8](../assets/06-Doctrine/4-Requests%20in%20database/6.4.8.png)
+```php
+class BookRepository extends ServiceEntityRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Book::class);
+    }
+
+    public function findBookWithAuthors(string $isbn): void
+    {
+        return $this->createQueryBuilder('b')
+            ->join(App\Entity\Author::class)
+            ->setParameter('isbn', $isbn)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+}
+```
 
 ---
 

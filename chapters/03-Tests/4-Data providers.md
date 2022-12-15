@@ -5,7 +5,28 @@
 
 ## Test with data providers
 
-![3.4.1](../assets/03-Tests/4-Data%20providers/3.4.1.png)
+```php
+class RoutingTest extends WebTestCase
+{
+    public function provideUrisWithStatusCodes(): \Generator
+    {
+        yield ['/', 200];
+        yield ['/login', 200];
+        yield ['/logout', 302];
+    }
+    
+    /**
+     * @dataProvider provideUrisWithStatusCodes
+     */
+    public function testApplicationRoutes(string $uri, int $expectedStatusCode): void
+    {
+        $client = static::createClient();
+        $client->request('GET', $uri);
+        
+        $this->assertResponseStatusCodeSame($expectedStatusCode);
+    }
+}
+```
 
 ---
 
@@ -15,7 +36,30 @@ PHPUnit provides hooks to prepare and optimize your tests:
 - The protected methods `setUp` and `tearDown`, executed before and after each test
 - The protected static methods `setUpBeforeClass` and `tearDownAfterClass` called before and after each test class
 
-![3.4.2](../assets/03-Tests/4-Data%20providers/3.4.2.png)
+```php
+class DefaultControllerTest extends WebTestCase
+{
+    /** @var KernelBrowser */
+    public static $webclient;
+    
+    public static function setUpBeforeClass(): :void
+    {
+        // Do something before the test of this class
+        // For example:
+        self::$webclient = static::createClient();
+    }
+    
+    /**
+     * @dataProvider provideUrisWithStatusCodes
+     */
+    protected function testApplicationRoutes(): void
+    {
+        // Do something before each test
+    }
+    
+    // ...
+}
+```
 
 ## Test tips
 

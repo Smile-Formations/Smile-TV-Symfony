@@ -19,5 +19,29 @@ A Route is a set of criteria that matches a request:
 - The Request object also contains many ParameterBags, which are sub objects containing the information from the actual HTTP request conveniently formatted and stored in collections.
 - By default, an argument typed and named `Request` `$request` given to any controller will contain the current Request object.
 
-![2.2.2](../assets/02-HTTP%20flow/2-Request%20-%20Response%20flow/2.2.2.png)
+```php
+use Symfony\Component\HttpFoundation\Request;
+
+$request = Request::createFromGlobals();
+
+$request->query;
+$request->request;
+$request->attributes;
+$request->cookies;
+$request->files;
+$request->server;
+$request->headers;
+$request->query->all();
+$request->query->has('foo');
+$request->query->get('foo', 'default');
+$request->get('foo', 'default');
+$request->getSession();
+$request->getContent();
+$request->getMethod();
+$request->getBaseUrl();
+$request->getPathInfo();
+$request->isXmlHttpRequest();
+$request->isMethod('GET');
+// ... And many more
+```
 

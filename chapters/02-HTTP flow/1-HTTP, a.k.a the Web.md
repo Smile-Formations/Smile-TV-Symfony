@@ -15,7 +15,12 @@ Anatomy of the request:
 - headers: key-value pairs
 - a body may follow an empty line (post payload)
 
-![2.1.2](../assets/02-HTTP%20flow/1-HTTP,%20a.k.a%20the%20Web/2.1.2.png)
+```bash
+GET /some-page HTTP/2
+HOST: example.org
+
+Some optional body
+```
 
 ---
 
@@ -26,6 +31,12 @@ Anatomy of the response
 - headers: key-value pairs
 - a body may follow an empty line (resource content)
 
-![2.1.3](../assets/02-HTTP%20flow/1-HTTP,%20a.k.a%20the%20Web/2.1.3.png)
+```bash
+HTTP/2 200 OK
+Content-Type: text/plain
+Content-Length: 12345
+
+Some optional body
+```
 
 

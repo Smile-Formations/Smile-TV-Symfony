@@ -35,11 +35,83 @@ $ symfony console make:entity Book
 
 With attributes (recommended):
 
-![6.5.2](../assets/06-Doctrine/5-Relationships/6.5.2.png)
+```php
+// src/Entity/Book.php
+
+//...
+#[ORM\Entity(repositoryClass: BookRepository::class)]
+class Book
+{
+    //...
+
+    #[ORM\OneToMany(mappedBy: 'book', targetEntity: Comment::class)]
+    private Collection $comments;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
+    
+    //...
+}
+
+// src/Entity/Comment.php
+
+#[ORM\Entity(repositoryClass: CommentRepository::class)]
+class Comment
+{
+    //...
+    
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    private ?Book $book = null;
+    
+    //...
+}
+```
 
 With annotations:
 
-![6.5.3](../assets/06-Doctrine/5-Relationships/6.5.3.png)
+```php
+// src/Entity/Book.php
+
+//...
+/**
+ * @ORM\Entity(repositoryClass=BookRepository::class)
+ */
+class Book
+{
+    //...
+
+    /**
+     * @ORM\OneToMany(mappedBy="book", targetEntity=Comment::class)
+     */
+    private Collection $comments;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
+    
+    //...
+}
+
+// src/Entity/Comment.php
+
+/**
+ * @ORM\Entity(repositoryClass=CommentRepository::class)
+ */
+class Comment
+{
+    //...
+    
+    /**
+     * @ORM\ManyToOne(inversedBy="comments")
+     */
+    private ?Book $book = null;
+    
+    //...
+}
+```
 
 ---
 

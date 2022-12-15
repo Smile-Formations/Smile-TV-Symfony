@@ -11,11 +11,61 @@
 
 With attributes (recommended):
 
-![7.5.1](../assets/07-Forms/5-Data%20validation/7.5.1.png)
+```php
+use App\Repository\BookRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+
+#[ORM\Entity(repositoryClass: BookRepository::class)]
+#[UniqueEntity('isbn')]
+class Book
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[Assert/NotBlank]
+    #[Assert/Isbn(type: 'isbn13')]
+    #[ORM\Column(length: 13)]
+    private ?string $isbn = null;
+    
+    //...
+}
+```
 
 With annotations: 
 
-![7.5.2](../assets/07-Forms/5-Data%20validation/7.5.2.png)
+```php
+use App\Repository\BookRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @ORM\Entity(repositoryClass=BookRepository::class)
+ * @UniqueEntity('isbn')
+ */
+class Book
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column
+     */
+    private ?int $id = null;
+
+    /**
+     * @Assert/NotBlank
+     * @Assert/Isbn(type="isbn13")
+     * @ORM\Column(length=13)
+     */
+    private ?string $isbn = null;
+    
+    //...
+}
+```
 
 ---
 

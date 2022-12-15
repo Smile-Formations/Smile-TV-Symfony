@@ -1,7 +1,38 @@
 ## Execution
 
 In the public **front controller**:
-![2.4.1](../assets/02-HTTP%20flow/4-Front%20Controller/2.4.1.png)
+
+```php
+<?php
+
+use App\Kernel;
+
+require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
+
+return function (array $context) {
+    return new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+};
+```
 
 As **CLI tool**:
-![2.4.2](../assets/02-HTTP%20flow/4-Front%20Controller/2.4.2.png)
+
+```php
+#!/usr/bin/env php
+<?php
+
+use App\Kernel;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+
+if (!is_file(dirname(__DIR__).'/vendor/autoload_runtime.php')) {
+    throw new LogicException('Symfony Runtime is missing. Try running "composer require symfony/runtime".');
+}
+
+require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
+
+return function (array $context) {
+    $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+
+    return new Application($kernel);
+};
+
+```

@@ -17,8 +17,58 @@ If not done in the previous exercise, use the MakerBundle to generate a `Default
 
 You can use the MakerBundle to generate the corresponding test class stub. The basic test included is the perfect smoke test base.
 
-![3.3.1](../assets/03-Tests/3-Write%20your%20first%20smoke%20test/3.3.1.png)
-![3.3.2](../assets/03-Tests/3-Write%20your%20first%20smoke%20test/3.3.2.png)
+```bash
+$ symfony console make:test
+
+ Which test type would you like?:
+  [TestCase       ] basic PHPUnit tests
+  [KernelTestCase ] basic tests that have access to Symfony services
+  [WebTestCase    ] to run browser-like scenarios, but that don\'t execute JavaScript code
+  [ApiTestCase    ] to run API-oriented scenarios
+  [PantherTestCase] to run e2e scenarios, using a real-browser or HTTP client and a real web server
+ > WebTestCase
+
+
+Choose a class name for your test, like:
+ * UtilTest (to create tests/UtilTest.php)
+ * Service\UtilTest (to create tests/Service/UtilTest.php)
+ * \App\Tests\Service\UtilTest (to create tests/Service/UtilTest.php)
+
+ The name of the test class (e.g. BlogPostTest):
+ > Controller\DefaultControllerTest
+
+ created: tests/Controller/DefaultControllerTest.php
+
+           
+  Success! 
+           
+
+ Next: Open your new test class and start customizing it.
+ Find the documentation at https://symfony.com/doc/current/testing.html#functional-tests
+
+```
+
+```php
+<?php
+
+namespace App\Tests\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
+class DefaultControllerTest extends WebTestCase
+{
+    public function testSomething(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/');
+
+        $this->assertResponseIsSuccessful();
+        // Remove this line
+        $this->assertSelectorTextContains('h1', 'Hello World');
+    }
+}
+
+```
 
 ---
 
@@ -26,10 +76,38 @@ You can use the MakerBundle to generate the corresponding test class stub. The b
 
 To execute the tests, call the special version of PHPUnit included in your bin folder
 
-![3.3.3](../assets/03-Tests/3-Write%20your%20first%20smoke%20test/3.3.3.png)
+```bash
+$ ./bin/phpunit
+
+PHPUnit 9.5.27 by Sebastian Bergmann and contributors.
+
+Testing
+.                                                                   1 / 1 (100%)
+
+Time: 00:00.130, Memory: 26.00 MB
+
+OK (1 test, 1 assertion)
+```
 
 ## Output when a test fails
 
 If you change the test condition:
 
-![3.3.4](../assets/03-Tests/3-Write%20your%20first%20smoke%20test/3.3.4.png)
+```bash
+$ ./bin/phpunit
+
+PHPUnit 9.5.27 by Sebastian Bergmann and contributors.
+
+Testing
+F                                                                   1 / 1 (100%)
+
+Time: 00:00.128, Memory: 26.00 MB
+
+The was 1 failure:
+
+1) App\Tests\Controller\DefaultControllerTest::testHomepage
+Failed asserting that the Response status code is 201.
+#....
+FAILURES!
+Tests: 1, Assertions: 1, Failures: 1.
+```

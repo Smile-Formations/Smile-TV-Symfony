@@ -15,7 +15,27 @@ $ symfony console make:form BookType Book
 
 ## Default skeleton
 
-![7.2.1](../assets/07-Forms/2-Building%20a%20form/7.2.1.png)
+```php
+class BookType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('foo')
+            ->add('bar')
+            //...
+            // One add() call for one property from your entity
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Book::class
+        ]);
+    }
+}
+```
 
 ---
 
@@ -26,7 +46,21 @@ $ symfony console make:form BookType Book
 - You can then return a Response with the $this->renderForm (since Symfony 5.4) shortcut and pass your form in the parameters.
 - Inside a template, the form function can display your form entirely.
 
-![7.2.2](../assets/07-Forms/2-Building%20a%20form/7.2.2.png)
+```php
+#[Route('/book', name: 'book_')]
+class BookController extends AbstractController
+{
+    #[Route('/create', name: 'create')]
+    public function create(): Response
+    {
+        $form = $this->createForm(BookType::class);
+        
+        return $this->renderForm('book/create.html.twig', [
+            'book_form' => $form,
+        ]);
+    }
+}
+```
 
 ```php
 {{ form_start(book_form) }}

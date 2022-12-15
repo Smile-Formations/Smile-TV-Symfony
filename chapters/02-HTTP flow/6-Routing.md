@@ -12,15 +12,45 @@ _Tips: Routes can be declared in different formats, such as : annotations, php a
 
 ## Routing attributes in action
 
-Routes should preferably be declared as attributes in PHP 6
-![2.6.1](../assets/02-HTTP%20flow/6-Routing/2.6.1.png)
+Routes should preferably be declared as attributes in Symfony 6
+
+```php
+use Symfony\Component\Routing\Annotation\Route;
+
+#[Route('/book', name: 'book_')]
+class BookController extends AbstractController
+{
+    #[Route('/{page<\d+>?1}', name: 'list', methods: ['GET'])]
+    public function index(int $page)
+    {
+        //..
+    }
+}
+```
 
 ---
 
 ## Routing annotations in action
 
 This is the former best practice, for former PHP versions
-![2.6.2](../assets/02-HTTP%20flow/6-Routing/2.6.2.png)
+
+```php
+use Symfony\Component\Routing\Annotation\Route;
+
+/**
+ * @Route("/book", name="book_")
+ */
+class BookController extends AbstractController
+{
+    /**
+     * @Route("/{page<\d+>?1}", name="list", methods={"GET"})
+     */
+    public function index(int $page)
+    {
+        //..
+    }
+}
+```
 
 ---
 
@@ -32,7 +62,19 @@ A route can contain any number of attributes. Parameters can be  passed directly
 
 ## Routing parameters
 
-![2.6.3](../assets/02-HTTP%20flow/6-Routing/2.6.3.png)
+```php
+class BookController extends AbstractController
+{
+    #[Route('/blog/{post}', name: 'show', methods: ['GET'])]
+    public function show(Request $request, $post)
+    {
+        // In this Route, {post} is a parameter.
+        // It can be retrieved as the $post controller argument or in the request :
+        $post = $request->attributes->get('post');
+        //...
+    }
+}
+```
 
 ---
 
@@ -42,7 +84,23 @@ Routing parameters can be validated against specific regex constraints defined a
 - As key-value pairs in the `requirements` section of the Route definition, the key being the parameter name.
 - Inside `<>` characters, placed after the parameter name inside the curly braces 
 
-![2.6.4](../assets/02-HTTP%20flow/6-Routing/2.6.4.png)
+```php
+class BookController extends AbstractController
+{
+    #[Route('/blog/{post}', name: 'show', requirements: ['post' => '\w+'])]
+    public function show(string $post)
+    {
+        //...
+    }
+    
+    // Equivalent to :
+    #[Route('/blog/{post<\w+}', name: 'show')]
+    public function show(string $post)
+    {
+        //...
+    }
+}
+```
 
 ---
 
@@ -53,7 +111,37 @@ Routing parameters can have default values. These values can be defined three wa
 - As key-value pairs in the `defaults` section of the Route definition, the key being the parameter name.
 - After a question mark `?` character, placed after the parameter name and the requirements, inside the curly braces 
 
-![2.6.5](../assets/02-HTTP%20flow/6-Routing/2.6.5.png)
+```php
+class BookController extends AbstractController
+{
+    #[Route('/blog/{page}', name: 'show')]
+    public function show(int $page = 1)
+    {
+        //...
+    }
+    
+    // Equivalent to :
+    #[Route('/blog/{page}', name: 'show', defaults: ['page' => 1])]
+    public function show(int $page)
+    {
+        //...
+    }
+    
+    // Equivalent to :
+    #[Route('/blog/{page?1}', name: 'show')]
+    public function show(int $page)
+    {
+        //...
+    }
+    
+    // Can be combined with requirements :
+    #[Route('/blog/{page<\d>?1}', name: 'show')]
+    public function show(int $page)
+    {
+        //...
+    }
+}
+```
 
 ---
 
@@ -63,7 +151,26 @@ You can make routes match only for specific HTTP methods by adding the `methods`
 
 For more complex matching methods, you can use the `condition` section of the route and write a custom condition using the `ExpressionLanguage`.
 
-![2.6.6](../assets/02-HTTP%20flow/6-Routing/2.6.6.png)
+```php
+class BookController extends AbstractController
+{
+    #[Route('/blog/{page}', name: 'show', methods: ['GET', 'POST'])]
+    public function show(int $page = 1)
+    {
+        //...
+    }
+    
+    #[Route(
+        '/blog/{page}',
+         name: 'show',
+         condition: "request.headers,get('User-Agent') matches '%env(ALLOWED_BROWSERS)%'"
+    )]
+    public function show(int $page)
+    {
+        //...
+    }
+}
+```
 
 ---
 
@@ -73,12 +180,32 @@ For more complex matching methods, you can use the `condition` section of the ro
 - In a route defining multiple parameter, if the first parameter has a default value (and thus is optional) all the following parameters must also be optional.
 - You can define a `priority` parameter to force a route defined after another route to match first. Default priority is 0.
 
-![2.6.7](../assets/02-HTTP%20flow/6-Routing/2.6.7.png)
+```php
+class BookController extends AbstractController
+{
+    #[Route('/blog/{slug<\w+}', name: 'show')]
+    public function show(string $slug)
+    {
+        // should match /blog/list
+    }
+    
+    #[Route('/blog/list}', name: 'show', priority: 2)]
+    public function show()
+    {
+        // will match first
+    }
+}
+```
 
 ---
 
 ## Debugging routes
 
-![2.6.8](../assets/02-HTTP%20flow/6-Routing/2.6.8.png)
+```bash
+$ symfony console debug:router
+$ symfony console debug:router book_list
+$ symfony console debug:router --show-controllers
+$ symfony console router:match /book/1
+```
 
 More: [https://symfony.com/doc/current/routing.html](https://symfony.com/doc/current/routing.html)

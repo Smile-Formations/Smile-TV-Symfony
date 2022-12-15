@@ -4,10 +4,27 @@ The MakerBundle is a utilitary bundle created to help you generate quickly skele
 
 You can see a list of all the things it can help you with by typing the following command:
 
-![2.5.1](../assets/02-HTTP%20flow/5-First%20web%20page/2.5.1.png)
+```bash
+$ symfony console list make
+```
 
 ---
 
 ## First page – easy way
 
-![2.5.2](../assets/02-HTTP%20flow/5-First%20web%20page/2.5.2.png)
+```bash
+$ symfony console make:controller
+
+Choose a name for your controller class (e.g. AgreeablePizzaController):
+ > BookController
+
+ created: src/Controller/BookController.php
+ created: templates/book/index.html.twig
+
+           
+  Success! 
+           
+
+Next: Open your new controller class and add some pages!
+# Open your browser on https://localhost:8000/book
+```
